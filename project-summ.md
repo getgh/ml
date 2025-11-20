@@ -63,3 +63,28 @@ Security:
 Biometric authentication
 Threat classification
 The project's strength lies in its ability to handle diverse data characteristics (high/low dimensions, few/many samples) and automatically adapt parameters (k-value selection) based on dataset properties, making it robust for various real-world scenarios where data characteristics vary significantly.
+
+
+DATASET 1 (Isolated)
+├─ TrainData1.txt (150 samples)
+├─ TrainLabel1.txt (150 labels)
+├─ TestData1.txt (53 samples)
+└─ predictions1.txt ← Uses ONLY Dataset 1
+
+DATASET 2 (Isolated)
+├─ TrainData2.txt
+├─ TrainLabel2.txt
+├─ TestData2.txt
+└─ predictions2.txt ← Uses ONLY Dataset 2
+
+DATASET 3 (Isolated)
+├─ TrainData3.txt
+├─ TrainLabel3.txt
+├─ TestData3.txt
+└─ predictions3.txt ← Uses ONLY Dataset 3
+
+DATASET 4 (Isolated)
+├─ TrainData4.txt
+├─ TrainLabel4.txt
+├─ TestData4.txt
+└─ predictions4.txt ← Uses ONLY Dataset 4

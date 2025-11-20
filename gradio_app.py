@@ -86,7 +86,7 @@ def classify_existing_dataset(dataset_num, k_value):
         return f"Error: {str(e)}", ""
 
 with gr.Blocks(title="ML Classification Project") as demo:
-    gr.Markdown("# 🤖 Machine Learning Classification Interface")
+    gr.Markdown("# Machine Learning Classification Interface")
     gr.Markdown("This interface allows you to run k-NN classification on existing datasets or upload your own data.")
     
     with gr.Tabs():
@@ -107,7 +107,7 @@ with gr.Blocks(title="ML Classification Project") as demo:
                     label="K Value (number of neighbors)"
                 )
             
-            classify_btn = gr.Button("🚀 Classify", variant="primary")
+            classify_btn = gr.Button("Classify", variant="primary")
             
             with gr.Row():
                 result_text = gr.Textbox(
@@ -127,7 +127,7 @@ with gr.Blocks(title="ML Classification Project") as demo:
                 outputs=[result_text, predictions_text]
             )
         
-        with gr.TabItem("📤 Upload Custom Data"):
+        with gr.TabItem("Upload Custom Data"):
             gr.Markdown("### Upload your own training and test data")
             gr.Markdown("**File Format:** Text files with space-separated values")
             
@@ -155,7 +155,7 @@ with gr.Blocks(title="ML Classification Project") as demo:
                         label="K Value"
                     )
             
-            upload_classify_btn = gr.Button("🚀 Classify Custom Data", variant="primary")
+            upload_classify_btn = gr.Button("Classify Custom Data", variant="primary")
             
             with gr.Row():
                 custom_result = gr.Textbox(
@@ -175,16 +175,15 @@ with gr.Blocks(title="ML Classification Project") as demo:
                 outputs=[custom_result, custom_predictions]
             )
         
-        with gr.TabItem("ℹ️ About"):
+        with gr.TabItem("About"):
             gr.Markdown("""
-            ### About This Project
-            
+            ###            
             This is a **k-Nearest Neighbors (k-NN) classifier** that can handle:
             
-            - ✅ **Missing value imputation** (replaces 1e+99 with column means)
-            - ✅ **Data normalization** (standardizes features)
-            - ✅ **Multi-class classification** 
-            - ✅ **Adaptive k-value selection** based on dataset characteristics
+            -  **Missing value imputation** (replaces 1e+99 with column means)
+            -  **Data normalization** (standardizes features)
+            -  **Multi-class classification** 
+            -  **Adaptive k-value selection** based on dataset characteristics
             
             ### Dataset Requirements
             
