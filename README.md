@@ -153,7 +153,7 @@ python classifier.py
 ### **Use Case 2: Test with Custom Data**
 1. Prepare your data files (training, labels, test)
 2. Run: `python gradio_app.py`
-3. Go to "📤 Upload Custom Data" tab
+3. Go to "Upload Custom Data" tab
 4. Upload your files
 5. Click "Classify Custom Data"
 6. View predictions
