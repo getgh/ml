@@ -9,35 +9,13 @@ Before running this project, ensure you have:
 
 ---
 
-## **Installation & Setup**
-
-### **Step 1: Clone the Repository**
+## **Running the Project**
+### **Option 1: Batch Processing (Command Line)**
 ```bash
 git clone https://github.com/getgh/ml.git
 cd ml
-```
-
-### **Step 2: Install Dependencies**
-```bash
-pip install gradio
-```
-
-**Required packages:**
-- `gradio` - Web interface framework
-```
-
----
-
-## **Running the Project**
-
-### **Option 1: Batch Processing (Command Line)**
-
-Process all 4 datasets automatically and generate predictions:
-
-```bash
 python classifier.py
 ```
-
 **What happens:**
 - Loads training data and labels for all 4 datasets
 - Applies data preprocessing (imputation + normalization)
@@ -53,18 +31,15 @@ Dataset 3 processed. Predictions saved to predictions3.txt
 Dataset 4 processed. Predictions saved to predictions4.txt
 ```
 
----
 
-### **Option 2: Interactive Web Interface (Recommended)**
-
-Launch the Gradio web interface for interactive classification:
-
+### **Option 2: Interactive Web Interface**
 ```bash
+pip install gradio
 python gradio_app.py
 ```
-
+---
 **What happens:**
-- Opens a web server at `http://localhost:7860`
+- Opens a web server at `http://localhost:7860` or the address should be shown in ther terminal
 - Provides an interactive interface with multiple tabs
 
 **Features:**
@@ -81,7 +56,7 @@ python gradio_app.py
    - Adjust k value
    - Get predictions immediately
 
-3. **ℹ️ About Tab**
+3. ** About Tab**
    - Algorithm documentation
    - File format requirements
    - Usage instructions
