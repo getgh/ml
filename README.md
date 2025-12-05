@@ -33,6 +33,7 @@ Dataset 4 processed. Predictions saved to predictions4.txt
 
 
 ### **Option 2: Interactive Web Interface**
+[Gradio running demo](https://youtu.be/RJqdqNylNKA)
 ```bash
 pip install gradio
 python gradio_app.py
