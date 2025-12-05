@@ -1,5 +1,4 @@
 import gradio as gr
-import tempfile
 import os
 from classifier import load_data, load_labels, impute_missing_values, normalize_data, knn_predict
 
@@ -8,45 +7,37 @@ def classify_custom_data(train_file, label_file, test_file, k_value):
         if not all([train_file, label_file, test_file]):
             return "Please upload all three files (training data, labels, test data)", ""
         
-        with tempfile.TemporaryDirectory() as temp_dir:
-            train_path = os.path.join(temp_dir, "train.txt")
-            label_path = os.path.join(temp_dir, "labels.txt")
-            test_path = os.path.join(temp_dir, "test.txt")
-            
-            with open(train_path, 'wb') as f:
-                f.write(train_file.read())
-            with open(label_path, 'wb') as f:
-                f.write(label_file.read())
-            with open(test_path, 'wb') as f:
-                f.write(test_file.read())
-            
-            X_train = load_data(train_path)
-            y_train = load_labels(label_path)
-            X_test = load_data(test_path)
-            
-            if not X_train or not y_train or not X_test:
-                return "Error: Could not load data from files", ""
-            
-            if len(X_train) != len(y_train):
-                return f"Error: Training data ({len(X_train)} samples) and labels ({len(y_train)} labels) don't match", ""
-            
-            X_train = impute_missing_values(X_train)
-            X_test = impute_missing_values(X_test)
-            
-            X_train_norm, X_test_norm = normalize_data(X_train, X_test)
-            
-            predictions = knn_predict(X_train_norm, y_train, X_test_norm, k=k_value)
-            
-            result_text = f"Classification completed successfully!\n"
-            result_text += f"Training samples: {len(X_train)}\n"
-            result_text += f"Features: {len(X_train[0])}\n"
-            result_text += f"Test samples: {len(X_test)}\n"
-            result_text += f"Classes found: {sorted(set(y_train))}\n"
-            result_text += f"K value used: {k_value}"
-            
-            predictions_text = "\n".join(str(pred) for pred in predictions)
-            
-            return result_text, predictions_text
+        train_path = train_file if isinstance(train_file, str) else train_file.name
+        label_path = label_file if isinstance(label_file, str) else label_file.name
+        test_path = test_file if isinstance(test_file, str) else test_file.name
+        
+        X_train = load_data(train_path)
+        y_train = load_labels(label_path)
+        X_test = load_data(test_path)
+        
+        if not X_train or not y_train or not X_test:
+            return "Error: Could not load data from files", ""
+        
+        if len(X_train) != len(y_train):
+            return f"Error: Training data ({len(X_train)} samples) and labels ({len(y_train)} labels) don't match", ""
+        
+        X_train = impute_missing_values(X_train)
+        X_test = impute_missing_values(X_test)
+        
+        X_train_norm, X_test_norm = normalize_data(X_train, X_test)
+        
+        predictions = knn_predict(X_train_norm, y_train, X_test_norm, k=k_value)
+        
+        result_text = f"Classification completed successfully!\n"
+        result_text += f"Training samples: {len(X_train)}\n"
+        result_text += f"Features: {len(X_train[0])}\n"
+        result_text += f"Test samples: {len(X_test)}\n"
+        result_text += f"Classes found: {sorted(set(y_train))}\n"
+        result_text += f"K value used: {k_value}"
+        
+        predictions_text = "\n".join(str(pred) for pred in predictions)
+        
+        return result_text, predictions_text
     
     except Exception as e:
         return f"Error: {str(e)}", ""
