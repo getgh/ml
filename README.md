@@ -17,29 +17,13 @@ git clone https://github.com/getgh/ml.git
 cd ml
 ```
 
-### **Step 2: Create a Virtual Environment (Recommended)**
+### **Step 2: Install Dependencies**
 ```bash
-# For Windows
-python -m venv .venv
-.venv\Scripts\activate
-
-# For macOS/Linux
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### **Step 3: Install Dependencies**
-```bash
-pip install -r requirements.txt
+pip install gradio
 ```
 
 **Required packages:**
 - `gradio` - Web interface framework
-- `numpy` - Numerical computing (if needed)
-
-If `requirements.txt` doesn't exist, install manually:
-```bash
-pip install gradio
 ```
 
 ---
@@ -84,13 +68,13 @@ python gradio_app.py
 - Provides an interactive interface with multiple tabs
 
 **Features:**
-1. **📁 Existing Datasets Tab**
+1. ** Existing Datasets Tab**
    - Select dataset (1-4)
    - Adjust k value (1-20)
    - Click "Classify"
    - View results in real-time
 
-2. **📤 Upload Custom Data Tab**
+2. ** Upload Custom Data Tab**
    - Upload your own training data (`.txt`)
    - Upload training labels (`.txt`)
    - Upload test data (`.txt`)
@@ -135,10 +119,7 @@ ml/
 ├── TrainData4.txt               # Dataset 4 - Training features (1119 samples × 11 features)
 ├── TrainLabel4.txt              # Dataset 4 - Training labels
 ├── TestData4.txt                # Dataset 4 - Test features
-├── predictions4.txt             # Dataset 4 - Predictions
-│
-├── project-summ.md              # Project summary
-└── task-inspiration.md          # Project background
+└── predictions4.txt             # Dataset 4 - Predictions
 ```
 
 ---
@@ -258,38 +239,4 @@ pip install gradio
 demo.launch(server_name="127.0.0.1", server_port=7861)
 ```
 
-### **Predictions seem wrong**
-- Check that training and test data have the same number of features
-- Verify training labels match the number of training samples
-- Try different k values
-
 ---
-
-## **Performance Tips**
-
-1. **For large datasets**: Use smaller k values to speed up computation
-2. **For high-dimensional data**: Consider feature selection or dimensionality reduction
-3. **For accuracy**: Experiment with k values (typically 3, 5, 7, 9)
-
----
-
-## **Next Steps**
-
-1. Run `python classifier.py` to generate initial predictions
-2. Launch `python gradio_app.py` to explore interactively
-3. Upload your own data to test custom datasets
-4. Adjust parameters and observe results
-5. Review `PRESENTATION.md` for detailed technical information
-
----
-
-## **Support**
-
-For questions or issues:
-- Check `PRESENTATION.md` for detailed algorithm explanation
-- Review `project-summ.md` for project background
-- Check file formats in this README
-
----
-
-**Happy classifying! 🚀**
