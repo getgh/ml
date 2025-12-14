@@ -2,7 +2,7 @@ import gradio as gr
 import os
 from classifier import load_data, load_labels, impute_missing_values, normalize_data, knn_predict
 
-def classify_custom_data(train_file, label_file, test_file, k_value):
+def classify_custom_data(train_file, label_file, test_file, k_value, metric):
     try:
         if not all([train_file, label_file, test_file]):
             return "Please upload all three files (training data, labels, test data)", ""
@@ -26,14 +26,15 @@ def classify_custom_data(train_file, label_file, test_file, k_value):
         
         X_train_norm, X_test_norm = normalize_data(X_train, X_test)
         
-        predictions = knn_predict(X_train_norm, y_train, X_test_norm, k=k_value)
+        predictions = knn_predict(X_train_norm, y_train, X_test_norm, k=k_value, metric=metric, weighted=True)
         
         result_text = f"Classification completed successfully!\n"
         result_text += f"Training samples: {len(X_train)}\n"
         result_text += f"Features: {len(X_train[0])}\n"
         result_text += f"Test samples: {len(X_test)}\n"
         result_text += f"Classes found: {sorted(set(y_train))}\n"
-        result_text += f"K value used: {k_value}"
+        result_text += f"K value: {k_value}\n"
+        result_text += f"Distance metric: {metric}"
         
         predictions_text = "\n".join(str(pred) for pred in predictions)
         
@@ -42,7 +43,7 @@ def classify_custom_data(train_file, label_file, test_file, k_value):
     except Exception as e:
         return f"Error: {str(e)}", ""
 
-def classify_existing_dataset(dataset_num, k_value):
+def classify_existing_dataset(dataset_num, k_value, metric):
     try:
         train_file = f'TrainData{dataset_num}.txt'
         label_file = f'TrainLabel{dataset_num}.txt'
@@ -60,14 +61,20 @@ def classify_existing_dataset(dataset_num, k_value):
         
         X_train_norm, X_test_norm = normalize_data(X_train, X_test)
         
-        predictions = knn_predict(X_train_norm, y_train, X_test_norm, k=k_value)
+        # Use optimized parameters if k_value is default (5)
+        if k_value == 5:
+            params = {1: (1, "euclidean"), 2: (7, "manhattan"), 3: (1, "manhattan"), 4: (7, "manhattan")}
+            k_value, metric = params.get(dataset_num, (5, metric))
+        
+        predictions = knn_predict(X_train_norm, y_train, X_test_norm, k=k_value, metric=metric, weighted=True)
         
         result_text = f"Dataset {dataset_num} Classification Results:\n"
         result_text += f"Training samples: {len(X_train)}\n"
         result_text += f"Features: {len(X_train[0])}\n"
         result_text += f"Test samples: {len(X_test)}\n"
         result_text += f"Classes: {sorted(set(y_train))}\n"
-        result_text += f"K value used: {k_value}"
+        result_text += f"K value: {k_value}\n"
+        result_text += f"Distance metric: {metric}"
         
         predictions_text = "\n".join(str(pred) for pred in predictions)
         
@@ -95,7 +102,12 @@ with gr.Blocks(title="ML Classification Project") as demo:
                     maximum=20,
                     step=1,
                     value=5,
-                    label="K Value (number of neighbors)"
+                    label="K Value (5 = auto-optimized per dataset)"
+                )
+                metric_radio = gr.Radio(
+                    choices=["euclidean", "manhattan"],
+                    value="euclidean",
+                    label="Distance Metric"
                 )
             
             classify_btn = gr.Button("Classify", variant="primary")
@@ -114,7 +126,7 @@ with gr.Blocks(title="ML Classification Project") as demo:
             
             classify_btn.click(
                 classify_existing_dataset,
-                inputs=[dataset_dropdown, k_slider],
+                inputs=[dataset_dropdown, k_slider, metric_radio],
                 outputs=[result_text, predictions_text]
             )
         
@@ -145,6 +157,11 @@ with gr.Blocks(title="ML Classification Project") as demo:
                         value=5,
                         label="K Value"
                     )
+                    metric_custom = gr.Radio(
+                        choices=["euclidean", "manhattan"],
+                        value="euclidean",
+                        label="Distance Metric"
+                    )
             
             upload_classify_btn = gr.Button("Classify Custom Data", variant="primary")
             
@@ -162,7 +179,7 @@ with gr.Blocks(title="ML Classification Project") as demo:
             
             upload_classify_btn.click(
                 classify_custom_data,
-                inputs=[train_upload, label_upload, test_upload, k_custom],
+                inputs=[train_upload, label_upload, test_upload, k_custom, metric_custom],
                 outputs=[custom_result, custom_predictions]
             )
         
