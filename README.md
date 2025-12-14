@@ -1,4 +1,27 @@
+
 # **How to Use the ML Classification Project**
+please run the python classifier.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## **Prerequisites**
 
